@@ -1,0 +1,36 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://db:5432?password=localonlypassword&user=postgres
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: localonlypassword
+    restart: always
+    shm_size: 128mb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+  
+  db-migration:
+    build: .
+    command: ["bin/rails", "db:migrate"]
+    environment:
+      DATABASE_URL: postgres://db:5432?password=localonlypassword&user=postgres
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
