@@ -1,4 +1,7 @@
 class ListItem < ActiveRecord::Base 
+    validates :name, presence: true, length: { minimum: 1, maximum: 200 }
+    validates :purchased, inclusion: { in: [true, false] } 
+
     class << self
         def mark_purchased(id:)
             item = find(id)

@@ -21,6 +21,12 @@ class ListItemTest < ActiveSupport::TestCase
     end
   end
 
+  test "#add_to_list returns an error when the name is too long" do 
+    assert_raises ActiveRecord::RecordInvalid do
+      ListItem.add_to_list(name: 'a'*201)
+    end
+  end
+
   test "#mark_purchased changes the purchased boolean on the record from false to true" do
     unpurchased_item = list_items(:unpurchased_potato)
     
