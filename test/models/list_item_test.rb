@@ -53,7 +53,7 @@ class ListItemTest < ActiveSupport::TestCase
 
     ListItem.edit_name(id: item.id, name: new_name)
 
-    ListItem.find(item.id).name == new_name
+    assert_equal new_name, ListItem.find(item.id).name
   end
 
   test "#edit_name raises a RecordNotFound error when an unknown ID is passed in" do
@@ -70,5 +70,13 @@ class ListItemTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordNotFound do
       ListItem.mark_purchased(id: random_id)
     end
+  end
+
+  test "#mark_all_as_purchased marks all records as purchased" do
+    refute_equal 0, ListItem.where(purchased: false).count
+
+    ListItem.mark_all_as_purchased
+
+    assert_equal 0, ListItem.where(purchased: false).count
   end
 end
