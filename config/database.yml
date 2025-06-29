@@ -3,3 +3,4 @@ development:
 
 test:
   adapter: postgresql
+  database: test
