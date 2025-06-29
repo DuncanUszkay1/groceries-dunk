@@ -1,0 +1,47 @@
+<h3>Groceries</h3>
+
+
+<table>
+    <tr>
+        <td>
+            <form action="/list_item/delete_all" method="post">
+                <button type="submit">🗑</button>
+            </form>
+        </td>
+        <td>
+            <form action="/list_item/mark_all_as_purchased" method="post">
+                <button type="submit">◎</button>
+            </form>
+        </td>
+        <td>
+            <form action="/list_item/add_to_list" method="post">
+                <input type="text" name="name" placeholder="Type your next item here..." autofocus /> 
+                <input type="submit" name="new" hidden />
+            </form>
+        </td>
+    </tr>
+    <% @list_items.each do |list_item| %>
+        <tr>
+            <td>
+                <form action="/list_item/delete?id=<%= list_item.id %>" method="post">
+                    <button type="submit">🗑</button>
+                </form>
+            </td>
+            <td>
+                <form action="/list_item/mark_purchased?id=<%= list_item.id%>" method="post">
+                    <% if list_item.purchased %>
+                        <button disabled>◉</button> 
+                    <% else %>
+                        <button type="submit">◎</button>
+                    <% end %>
+                </form>
+            </td>
+            <td>
+                <form action="/list_item/edit_name?id=<%= list_item.id%>" method="post">
+                    <input type="text" name="name" value="<%= list_item.name %>">
+                    <input type="submit" name="update-<%= list_item.id%>" hidden />
+                </form>
+            </td>
+        </tr>
+    <% end %>
+</table>
