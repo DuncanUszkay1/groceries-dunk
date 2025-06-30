@@ -2,12 +2,12 @@
     <tr>
         <td>
             <form action="/list_item/delete_all" method="post">
-                <button type="submit">🗑</button>
+                <button id="delete-all" type="submit">🗑</button>
             </form>
         </td>
         <td>
             <form action="/list_item/mark_all_as_purchased" method="post">
-                <button type="submit">◎</button>
+                <button id="purchase-all" type="submit">◎</button>
             </form>
         </td>
         <td>
@@ -21,7 +21,7 @@
         <tr>
             <td>
                 <form action="/list_item/delete?id=<%= list_item.id %>" method="post">
-                    <button type="submit">🗑</button>
+                    <button id="delete-<%= list_item.id %>" type="submit">🗑</button>
                 </form>
             </td>
             <td>
@@ -29,7 +29,7 @@
                     <% if list_item.purchased %>
                         <button disabled>◉</button> 
                     <% else %>
-                        <button type="submit">◎</button>
+                        <button id="purchase-<%= list_item.id %>" type="submit">◎</button>
                     <% end %>
                 </form>
             </td>

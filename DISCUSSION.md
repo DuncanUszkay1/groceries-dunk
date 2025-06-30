@@ -57,3 +57,22 @@ In fact, not only do I only catch exceptions for scenarios I'm aware of, I only 
 List items are rendered via the Rails Serverside rendering system. It uses ERB templates to construct basic HTML based on the state of the records passed by the controller.
 
 Using a javascript framework like Angular or React would provide a much better experience here, because we could avoid reloading the page after each update, but due to the limited time I had available to solve the problem I opted to focus on the backend, my area of expertise.
+
+## Testing layers
+
+The testing for this application is split into three separate layers. Each layer is standard as per [Rails test documentation](https://guides.rubyonrails.org/testing.html).
+
+1. System tests
+
+Using Capybara, a test framework that simulates the website via a browser emulator, I validate that the user flows work as expected in terms of
+raw user inputs (clicking buttons, typing characters) and DOM outputs (item present/not present, buttons disabled/enabled).
+
+This test can be found in `test/system/list_items_test.rb`
+
+2. Functional Controller tests
+
+An integration test that isolates the backend as a unit. In this project, there is just one: `test/controllers/list_item_controller_test.rb`
+
+3. Unit tests
+
+Includes only the `LineItem` interface in `test/models/line_item_test.rb`. The controller is considered to be covered by the Functional Controller tests, and as a rule should not be so complex that it merits a separate unit test.
