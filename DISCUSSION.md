@@ -100,3 +100,9 @@ Instead, I've recorded a video of the tests running, to spare the reviewer from 
 https://github.com/user-attachments/assets/074dc437-da92-4e35-9011-d35496dca2c6
 
 With infinite time, I'd likely spend a bit more time here so that users could be completely reliant on Docker and avoid installing postgres locally, though it might also not be worth the additional complexity and latency. It's something I'd need to discuss further with the team, if this was a real app built by a team.
+
+## Asset Pipeline
+
+You may notice that I've disabled the asset pipeline. Since we have almost no assets to manage, just a single CSS file, I found they were just adding bloat.
+
+In a real application with a js framework, I would use the Rails asset pipeline as designed.
