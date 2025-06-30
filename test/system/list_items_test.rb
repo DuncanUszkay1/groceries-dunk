@@ -18,12 +18,6 @@ class ListItemsTest < ApplicationSystemTestCase
   end
 
   test "user deletes the first item" do
-    visit list_item_all_url
-
-    @starting_items = ListItem.all
-
-    assert page_has_list_items?(@starting_items)
-
     item_to_delete = @starting_items.first
 
     click_button(id: delete_button_id(item_to_delete.id)) 
@@ -32,12 +26,6 @@ class ListItemsTest < ApplicationSystemTestCase
   end
 
   test "user deletes all items" do
-    visit list_item_all_url
-
-    @starting_items = ListItem.all
-
-    assert page_has_list_items?(@starting_items)
-
     click_button(id: delete_all_id) 
 
     @starting_items.each do |item|
@@ -46,12 +34,6 @@ class ListItemsTest < ApplicationSystemTestCase
   end
 
   test "user marks an unpurchased item as purchased" do
-    visit list_item_all_url
-
-    @starting_items = ListItem.all
-
-    assert page_has_list_items?(@starting_items)
-
     item_to_purchase = @starting_items.find { |item| !item.purchased }
 
     click_button(id: purchase_button_id(item_to_purchase.id)) 
@@ -60,12 +42,6 @@ class ListItemsTest < ApplicationSystemTestCase
   end
 
   test "user marks all unpurchased items as purchased" do
-    visit list_item_all_url
-
-    @starting_items = ListItem.all
-
-    assert page_has_list_items?(@starting_items)
-
     click_button(id: purchase_all_id) 
 
     @starting_items.each do |item|
