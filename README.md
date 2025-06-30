@@ -4,7 +4,13 @@ A simple Rails app for managing a grocery list.
 
 Production URL: https://guarded-bayou-90636-c6aae4ab3057.herokuapp.com
 
+Discussion of technical choices is available in DISCUSSION.md
+
 ## Running the app locally via docker compose
+
+Enables you to:
+- Build and run the app from source
+- Run integration and unit tests, but not system tests (see DISCUSSION.md)
 
 Requires (Docker)[https://docs.docker.com/get-started/get-docker/].
 
@@ -14,9 +20,13 @@ Visit `localhost:3000`
 
 ## Setting up the app for your local machine
 
-Having a local setup is handy when running commands that modify files, like Rails generators, and for running system tests that use browser emulators.
+Enables you to:
+- Run system tests
+- Run Rails generators and other commands that generate files which must be committed
 
-If you just want to run the app, I recommend using the `docker compose` method detailed in the prior section.
+If you don't need either of those uses, I recommend just using docker compose.
+
+Warning: These instructions were only tested on a single OSX machine, mileage may vary.
 
 1. Install Postgres and run it on your machine
 
@@ -24,9 +34,11 @@ If you just want to run the app, I recommend using the `docker compose` method d
 
 1. Install dependencies with `bundle install`
 
-1. Run DB migrations with `bin/rails db:migrate`
+1. Setup the prod DB with `bin/rails db:setup`
 
-1. Run tests with `bin/rails test`
+1. Setup the test DB with `RAILS_ENV=test bin/rails db:setup`
+
+1. Run system tests with `bin/rails test:system`
 
 ## Production Deployment (Maintainers only)
 
