@@ -69,6 +69,8 @@ List items are rendered via the Rails Serverside rendering system. It uses ERB t
 
 Using a javascript framework like Angular or React would provide a much better experience here, because we could avoid reloading the page after each update, but due to the limited time I had available to solve the problem I opted to focus on the backend, my area of expertise.
 
+There are some advantages to this approach as well- since it's all plain HTML, it's responsive to mobile formats without any effort, I had no issue using it on my IPhone. It also loads quite quickly as there's no JQuery/etc libraries that need to be loaded. 
+
 ## Testing layers
 
 The testing for this application is split into three separate layers. Each layer is standard as per [Rails test documentation](https://guides.rubyonrails.org/testing.html).
