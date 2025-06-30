@@ -49,6 +49,14 @@ class ListItemsTest < ApplicationSystemTestCase
     end
   end
 
+  test "user receives error message when entering an item name that is too long" do
+    new_item_name = "a"*(ListItem::MAX_NAME_LENGTH + 1)
+
+    send_keys(*new_item_name, :enter)
+
+    assert page.has_text?(ListItemController::NAME_TOO_LONG_MESSAGE)
+  end
+
   private
 
   def page_has_list_items?(list_items)

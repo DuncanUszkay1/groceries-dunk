@@ -5,25 +5,8 @@ class ListItem < ActiveRecord::Base
     validates :purchased, inclusion: { in: [true, false] } 
 
     class Error < StandardError; end;
-    class NotFound < Error 
-        def initialize(id)
-            @id = id
-            super
-        end
-
-        def message
-            "Could not find List Item with ID #{@id}"
-        end
-    end
-    class NameTooLong < Error 
-        def initialize(name)
-            @name_fragment = name[0, MAX_NAME_LENGTH]
-        end
-
-        def message
-            "Name starting with #{@name_fragment}... is too long. The maximum is 200 characters."
-        end
-    end
+    class NotFound < Error; end
+    class NameTooLong < Error; end
 
     class << self
         def mark_purchased(id:)
@@ -57,6 +40,11 @@ class ListItem < ActiveRecord::Base
 
         def mark_all_as_purchased
             ListItem.update_all(purchased: true)
+        end
+
+        def all_by_creation_date
+            # Should be by created_at, but did not add the index for that due to time constraints
+            ListItem.all.order(id: :desc)
         end
 
         private

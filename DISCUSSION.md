@@ -52,6 +52,17 @@ With my approach, where I only rescue specific exceptions that reflect scenarios
 
 In fact, not only do I only catch exceptions for scenarios I'm aware of, I only catch them in specific controller routes where I know those errors could occur. For example, I catch `NameTooLong` errors only when I'm adding an item or editing an item's name, and not when I'm marking an item as purchased. If the error was raised during the mark purchased flow, that would be an unexpected scenario and I'd want 500s to trigger my monitoring ASAP.
 
+## ListItemController exception messaging
+
+The controller catches multiple user errors, including missing parameters (captured via `param.require`), as well as bad parameters resulting in a name that's too long or a not found error.
+
+It's important to catch these errors so that unusual user behaviour, like a bot using the site, doesn't trigger monitors/alerts for the site, but it only makes sense to notify the user when
+it's something they can reasonably control. Since the user in this case is interacting with the backend via a browser, it's not within their control whether or not the request is properly built, like when a parameter is missing, so in those cases we just state that something has gone wrong on our end and that they should try refreshing (since hopefully whatever issue they encountered isn't present on the lastest version of the site).
+
+The only case where we actually send a message to the user for them to parse is when they've sent an item name that is too long- since that's within their control to fix.
+
+If in the future we exposed this backend as an API to be accessed programatically, we'd add in additional information for the user to debug their applications. 
+
 ## Rails Serverside Rendering
 
 List items are rendered via the Rails Serverside rendering system. It uses ERB templates to construct basic HTML based on the state of the records passed by the controller.
@@ -76,3 +87,14 @@ An integration test that isolates the backend as a unit. In this project, there 
 3. Unit tests
 
 Includes only the `LineItem` interface in `test/models/line_item_test.rb`. The controller is considered to be covered by the Functional Controller tests, and as a rule should not be so complex that it merits a separate unit test.
+
+## System tests in Docker
+
+The current implementation of the app does not enable the user to run system tests just with docker compose. Such a thing is certainly possible, with
+multiple documented routes for doing so ([1](https://avdi.codes/run-rails-6-system-tests-in-docker-using-a-host-browser/),[2](https://nicolasiensen.github.io/2022-03-11-running-rails-system-tests-with-docker/)), but I wasn't able to pursue those approaches to completion due to timing constraints.
+
+Instead, I've recorded a video of the tests running, to spare the reviewer from having to complete a local installation:
+
+https://github.com/user-attachments/assets/074dc437-da92-4e35-9011-d35496dca2c6
+
+With infinite time, I'd likely spend a bit more time here so that users could be completely reliant on Docker and avoid installing postgres locally, though it might also not be worth the additional complexity and latency. It's something I'd need to discuss further with the team, if this was a real app built by a team.
