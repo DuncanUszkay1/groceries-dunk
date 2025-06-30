@@ -22,9 +22,23 @@ class ListItemTest < ActiveSupport::TestCase
   end
 
   test "#add_to_list returns an error when the name is too long" do 
-    assert_raises ActiveRecord::RecordInvalid do
-      ListItem.add_to_list(name: 'a'*201)
+    exception = assert_raises ListItem::NameTooLong do
+      ListItem.add_to_list(name: 'a'*(ListItem::MAX_NAME_LENGTH+1))
     end
+
+    expected_error = "Name starting with #{'a'*ListItem::MAX_NAME_LENGTH}... is too long. The maximum is #{ListItem::MAX_NAME_LENGTH} characters."
+
+    assert_equal expected_error, exception.message
+  end
+
+  test "#edit_name returns an error when the name is too long" do 
+    exception = assert_raises ListItem::NameTooLong do
+      ListItem.edit_name(id: list_items(:unpurchased_potato).id, name: 'a'*(ListItem::MAX_NAME_LENGTH+1))
+    end
+
+    expected_error = "Name starting with #{'a'*ListItem::MAX_NAME_LENGTH}... is too long. The maximum is #{ListItem::MAX_NAME_LENGTH} characters."
+
+    assert_equal expected_error, exception.message
   end
 
   test "#mark_purchased changes the purchased boolean on the record from false to true" do
@@ -59,17 +73,25 @@ class ListItemTest < ActiveSupport::TestCase
   test "#edit_name raises a RecordNotFound error when an unknown ID is passed in" do
     random_id = 1209302930
 
-    assert_raises ActiveRecord::RecordNotFound do
+    exception = assert_raises ListItem::NotFound do
       ListItem.edit_name(id: random_id, name: "odjsod")
     end
+
+    expected_error = "Could not find List Item with ID #{random_id}"
+
+    assert_equal expected_error, exception.message
   end
 
-  test "#mark_purchased raises a RecordNotFound error when an unknown ID is passed in" do
+  test "#mark_purchased raises a ListItemNotFound error when an unknown ID is passed in" do
     random_id = 1209302930
 
-    assert_raises ActiveRecord::RecordNotFound do
+    exception = assert_raises ListItem::NotFound do
       ListItem.mark_purchased(id: random_id)
     end
+
+    expected_error = "Could not find List Item with ID #{random_id}"
+
+    assert_equal expected_error, exception.message
   end
 
   test "#mark_all_as_purchased marks all records as purchased" do
