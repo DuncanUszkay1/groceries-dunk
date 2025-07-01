@@ -69,7 +69,9 @@ List items are rendered via the Rails Serverside rendering system. It uses ERB t
 
 Using a javascript framework like Angular or React would provide a much better experience here, because we could avoid reloading the page after each update, but due to the limited time I had available to solve the problem I opted to focus on the backend, my area of expertise.
 
-There are some advantages to this approach as well- since it's all plain HTML, it's responsive to mobile formats without any effort, I had no issue using it on my IPhone. It also loads quite quickly as there's no JQuery/etc libraries that need to be loaded. 
+There are some advantages to this approach as well- since it's all plain HTML, it's responsive to mobile formats*. It also loads quite quickly as there's no JQuery/etc libraries that need to be loaded. 
+
+*The only exception being that one of the unicode characters for the mark purchased button doesn't seem to print properly on my phone- something I would explore further, if I had nore time.
 
 ## Testing layers
 
