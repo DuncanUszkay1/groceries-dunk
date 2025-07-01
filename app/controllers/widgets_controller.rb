@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class WidgetsController < ApplicationController
-  before_action :set_widget, only: [:show, :edit, :update, :destroy]
+  before_action :set_widget, only: %i[show edit update destroy]
 
   # GET /widgets
   # GET /widgets.json
@@ -9,8 +11,7 @@ class WidgetsController < ApplicationController
 
   # GET /widgets/1
   # GET /widgets/1.json
-  def show
-  end
+  def show; end
 
   # GET /widgets/new
   def new
@@ -18,8 +19,7 @@ class WidgetsController < ApplicationController
   end
 
   # GET /widgets/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /widgets
   # POST /widgets.json
@@ -62,13 +62,14 @@ class WidgetsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_widget
-      @widget = Widget.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def widget_params
-      params.require(:widget).permit(:name, :description, :stock)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_widget
+    @widget = Widget.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def widget_params
+    params.require(:widget).permit(:name, :description, :stock)
+  end
 end

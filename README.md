@@ -51,6 +51,8 @@ Warning: These instructions were only tested on a single OSX machine, mileage ma
 
 1. Run system tests with `bin/rails test:system`
 
+1. Lint the codebase with `rubocop -A`
+
 ## Production Deployment (Maintainers only)
 
 Deploy with Heroku by pushing the latest commit to the heroku remote:

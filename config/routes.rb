@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   post 'list_item/add_to_list'
   post 'list_item/mark_purchased'

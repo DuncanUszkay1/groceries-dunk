@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 ruby '>= 3.1', '< 3.4'
 
@@ -11,12 +13,14 @@ gem 'bootsnap', require: false
 gem 'listen'
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+gem 'spring', group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'puma'
+
+gem 'rubocop'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -25,6 +29,6 @@ gem 'puma'
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do
-    gem 'capybara'
-    gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end

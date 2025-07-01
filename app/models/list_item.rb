@@ -1,62 +1,64 @@
-class ListItem < ActiveRecord::Base 
-    MAX_NAME_LENGTH = 200
+# frozen_string_literal: true
 
-    validates :name, presence: true, length: { minimum: 1, maximum: MAX_NAME_LENGTH }
-    validates :purchased, inclusion: { in: [true, false] } 
+class ListItem < ActiveRecord::Base
+  MAX_NAME_LENGTH = 200
 
-    class Error < StandardError; end;
-    class NotFound < Error; end
-    class NameTooLong < Error; end
+  validates :name, presence: true, length: { minimum: 1, maximum: MAX_NAME_LENGTH }
+  validates :purchased, inclusion: { in: [true, false] }
 
-    class << self
-        def mark_purchased(id:)
-            item = find_list_item!(id)
+  class Error < StandardError; end
+  class NotFound < Error; end
+  class NameTooLong < Error; end
 
-            item.update(purchased: true)
-            item.save!
-        end
+  class << self
+    def mark_purchased(id:)
+      item = find_list_item!(id)
 
-        def edit_name(id:, name:) 
-            validate_name!(name)
-
-            item = find_list_item!(id)
-
-            item.update(name:)
-            item.save!
-        end
-
-        def add_to_list(name:) 
-            validate_name!(name)
-
-            item = create(name:, purchased: false)
-            item.save!
-        end
-
-        def delete(id:)
-            item = find_list_item!(id)
-            
-            item.delete
-        end
-
-        def mark_all_as_purchased
-            ListItem.update_all(purchased: true)
-        end
-
-        def all_by_creation_date
-            # Should be by created_at, but did not add the index for that due to time constraints
-            ListItem.all.order(id: :desc)
-        end
-
-        private
-
-        def validate_name!(name)
-            raise NameTooLong.new(name) if name.length > MAX_NAME_LENGTH 
-        end
-
-        def find_list_item!(id)
-            find(id)
-        rescue ActiveRecord::RecordNotFound
-            raise NotFound.new(id)
-        end
+      item.update(purchased: true)
+      item.save!
     end
+
+    def edit_name(id:, name:)
+      validate_name!(name)
+
+      item = find_list_item!(id)
+
+      item.update(name:)
+      item.save!
+    end
+
+    def add_to_list(name:)
+      validate_name!(name)
+
+      item = create(name:, purchased: false)
+      item.save!
+    end
+
+    def delete(id:)
+      item = find_list_item!(id)
+
+      item.delete
+    end
+
+    def mark_all_as_purchased
+      ListItem.update_all(purchased: true)
+    end
+
+    def all_by_creation_date
+      # Should be by created_at, but did not add the index for that due to time constraints
+      ListItem.all.order(id: :desc)
+    end
+
+    private
+
+    def validate_name!(name)
+      raise NameTooLong, name if name.length > MAX_NAME_LENGTH
+    end
+
+    def find_list_item!(id)
+      find(id)
+    rescue ActiveRecord::RecordNotFound
+      raise NotFound, id
+    end
+  end
 end
