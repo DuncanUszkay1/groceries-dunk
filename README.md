@@ -26,7 +26,7 @@ Enables you to:
 
 Requires (Docker)[https://docs.docker.com/get-started/get-docker/].
 
-1. `docker compose up` 
+1. `docker compose build && docker compose up` 
 2. Visit `localhost:3000`
 
 ## Setting up the app for your local machine
