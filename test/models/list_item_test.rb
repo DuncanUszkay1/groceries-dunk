@@ -87,4 +87,40 @@ class ListItemTest < ActiveSupport::TestCase
 
     assert_equal 0, ListItem.where(purchased: false).count
   end
+
+  test '#delete_list_item with a valid list item deletes the list item' do
+    unpurchased_item = list_items(:unpurchased_potato)
+
+    refute ListItem.find_by(id: unpurchased_item).nil?
+
+    assert_difference 'ListItem.count', -1 do
+      ListItem.delete_list_item(id: unpurchased_item.id)
+    end
+
+    assert ListItem.find_by(id: unpurchased_item).nil?
+  end
+
+  test '#delete_list_item raises a NotFound error when an unknown ID is passed in' do
+    random_id = 1_209_302_930
+
+    assert_raises ListItem::NotFound do
+      ListItem.delete_list_item(id: random_id)
+    end
+  end
+
+  test '#delete_all_list_items deletes all list items' do
+    refute_equal 0, ListItem.count
+
+    assert_difference 'ListItem.count', -ListItem.count do
+      ListItem.delete_all_list_items
+    end
+
+    assert_equal 0, ListItem.count
+  end
+
+  test '#all_by_creation_data returns all list items' do
+    all = ListItem.all_by_creation_date
+
+    assert_equal ListItem.count, all.count
+  end
 end

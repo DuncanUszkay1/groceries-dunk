@@ -45,14 +45,14 @@ class ListItemController < ApplicationController
 
   def delete
     handle_not_found_errors do
-      ListItem.delete(id: params.require(:id))
+      ListItem.delete_list_item(id: params.require(:id))
 
       redirect_to action: 'all'
     end
   end
 
   def delete_all
-    ListItem.delete_all
+    ListItem.delete_all_list_items
 
     redirect_to action: 'all'
   end

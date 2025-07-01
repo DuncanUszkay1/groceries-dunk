@@ -34,12 +34,6 @@ class ListItem < ActiveRecord::Base
       item.save!
     end
 
-    def delete(id:)
-      item = find_list_item!(id)
-
-      item.delete
-    end
-
     def mark_all_as_purchased
       ListItem.update_all(purchased: true)
     end
@@ -49,16 +43,24 @@ class ListItem < ActiveRecord::Base
       ListItem.all.order(id: :desc)
     end
 
+    def delete_list_item(id:)
+      find_list_item!(id).destroy
+    end
+
+    def delete_all_list_items
+      ListItem.destroy_all
+    end
+
     private
 
     def validate_name!(name)
-      raise NameTooLong, name if name.length > MAX_NAME_LENGTH
+      raise NameTooLong if name.length > MAX_NAME_LENGTH
     end
 
     def find_list_item!(id)
       find(id)
     rescue ActiveRecord::RecordNotFound
-      raise NotFound, id
+      raise NotFound
     end
   end
 end
