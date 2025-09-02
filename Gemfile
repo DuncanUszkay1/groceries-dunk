@@ -6,7 +6,7 @@ ruby '>= 3.1', '< 3.4'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.1.3'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.5.9'
+gem 'pg', '~> 1.6.1'
 # Use SCSS for stylesheets
 # gem 'sass-rails'
 gem 'bootsnap', require: false
